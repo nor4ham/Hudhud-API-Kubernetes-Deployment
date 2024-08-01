@@ -1,0 +1,13 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: api
+  namespace: hudhud
+spec:
+  selector:
+    component: api
+  type: ClusterIP
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80

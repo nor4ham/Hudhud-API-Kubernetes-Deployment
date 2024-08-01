@@ -1,0 +1,47 @@
+# Pulumi.staging.yaml
+config:
+  alicloud:region: me-central-1
+  hudhud-infrastructure-alicloud:accountId: "5507915163376274"
+  hudhud-infrastructure-alicloud:buckets:
+    - acl: private
+      name: stg-files-hudhud
+  hudhud-infrastructure-alicloud:db:
+    common:
+      databases:
+        - hudhud
+        - hudhud_keycloak
+      instanceChargeType: Prepaid
+      instanceType: pg.x2.medium.2c
+      size: 100
+  hudhud-infrastructure-alicloud:k8s:
+    containerdVersion: 1.6.21
+    imageId: aliyun_3_x64_20G_alibase_20230727.vhd
+    imageType: AliyunLinux3
+    users:
+      - id: "219480215164621764"
+        role: dev
+      - id: "212013015163382359"
+        role: admin
+    version: 1.28.3-aliyun.1
+  hudhud-infrastructure-alicloud:name: staging
+  hudhud-infrastructure-alicloud:vpc:
+    cidr: 10.0.0.0/16
+    subnets:
+      - cidr: 10.0.1.0/24
+        name: private-a
+        zone: me-central-1a
+      - cidr: 10.0.2.0/24
+        name: private-b
+        zone: me-central-1b
+      - cidr: 10.0.128.0/24
+        name: public-a
+        zone: me-central-1a
+      - cidr: 10.0.129.0/24
+        name: public-b
+        zone: me-central-1b
+  hudhud-infrastructure-alicloud:vpn:
+    enableSSH: true
+    instanceType: ecs.g6.large
+  hudhud-infrastructure-alicloud:zones:
+    - a
+    - b

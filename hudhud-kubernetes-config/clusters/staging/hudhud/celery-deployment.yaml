@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: celery
+  namespace: hudhud
+spec:
+  selector:
+    matchLabels:
+      component: celery
+  template:
+    metadata:
+      labels:
+        component: celery
+    spec:
+      imagePullSecrets:
+        - name: ghcr-credentials
+      containers:
+        - name: celery
+          image: ghcr.io/nor4ham/hudhud-api:sha-953db0b
+          args:
+            - celery
+            - -A
+            - app.celery_worker.tasks
+            - worker
+            - --loglevel=INFO
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: "500m"
+              memory: 500Mi
+          envFrom:
+            - configMapRef:
+                name: env
+            - secretRef:
+                name: env

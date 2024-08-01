@@ -1,0 +1,28 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: env
+  namespace: hudhud
+data:
+  ENVIRONMENT: staging
+  SENTRY_ENVIRONMENT: staging
+  APP_NAME: hudhud-api
+
+  # keycloak
+  KEYCLOAK_SERVER_URL: http://keycloak/
+  KEYCLOAK_MAX_ATTRIBUTE_SIZE: "65535"
+  KEYCLOAK_CLIENT_ID: hudhud-api
+  KEYCLOAK_REALM: main
+
+  # smtp
+  SMTP_SENDER: info@safcsp.org.sa
+  SMTP_HOST: mailhog.mailhog
+  SMTP_PORT: "1025"
+
+  # redis
+  REDIS_DB: "2"
+  REDIS_HOST: r-l4v2267b48d81eb4pd.redis.me-central-1.rds.aliyuncs
+  REDIS_PORT: "6379"
+
+  # celery
+  CELERY_BROKER_URL: redis://r-l4v2267b48d81eb4pd.redis.me-central-1.rds.aliyuncs:6379/3

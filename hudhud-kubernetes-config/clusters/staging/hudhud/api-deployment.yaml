@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: hudhud
+spec:
+  selector:
+    matchLabels:
+      component: api
+  template:
+    metadata:
+      labels:
+        component: api
+    spec:
+      imagePullSecrets:
+        - name: ghcr-credentials
+      containers:
+        - name: api
+          image: ghcr.io/nor4ham/hudhud-api:sha-953db0b
+          imagePullPolicy: IfNotPresent
+          resources:
+            limits:
+              cpu: "1"
+              memory: 1Gi
+            requests:
+              cpu: "500m"
+              memory: 500Mi
+          envFrom:
+            - configMapRef:
+                name: env
+            - secretRef:
+                name: env
