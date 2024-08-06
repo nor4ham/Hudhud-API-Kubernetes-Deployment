@@ -1,0 +1,145 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: keycloak
+  namespace: hudhud
+spec:
+  releaseName: my-release
+  chart:
+    spec:
+      chart: keycloak
+      sourceRef:
+        kind: HelmRepository
+        name: bitnami
+        namespace: hudhud
+      version: 22.0.1
+  interval: 1m0s
+  values:
+    image:
+      registry: docker.io
+      repository: bitnami/keycloak
+      tag: 22.0.1
+    auth:
+      adminUser: admin
+    production: false
+    proxy: edge
+    httpRelativePath: "/"
+    configuration: ""
+    existingConfigmap: ""
+    extraStartupArgs: ""
+    initdbScripts: {}
+    initdbScriptsConfigMap: ""
+    command: []
+    args: []
+    extraEnvVars: []
+    extraEnvVarsCM: ""
+    extraEnvVarsSecret: ""
+    replicaCount: 1
+    containerPorts:
+      http: 8080
+      https: 8443
+      infinispan: 7800
+    extraContainerPorts: []
+    podSecurityContext:
+      enabled: true
+      fsGroup: 1001
+    containerSecurityContext:
+      enabled: true
+      runAsUser: 1001
+      runAsNonRoot: true
+    resources:
+      limits: {}
+      requests: {}
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 300
+      periodSeconds: 1
+      timeoutSeconds: 5
+      failureThreshold: 3
+      successThreshold: 1
+    readinessProbe:
+      enabled: true
+      initialDelaySeconds: 30
+      periodSeconds: 10
+      timeoutSeconds: 1
+      failureThreshold: 3
+      successThreshold: 1
+    startupProbe:
+      enabled: false
+      initialDelaySeconds: 30
+      periodSeconds: 5
+      timeoutSeconds: 1
+      failureThreshold: 60
+      successThreshold: 1
+    customLivenessProbe: {}
+    customReadinessProbe: {}
+    customStartupProbe: {}
+    lifecycleHooks: {}
+    hostAliases: []
+    podLabels: {}
+    podAnnotations: {}
+    podAffinityPreset: ""
+    podAntiAffinityPreset: soft
+    nodeAffinityPreset:
+      type: ""
+      key: ""
+      values: []
+    affinity: {}
+    nodeSelector: {}
+    tolerations: []
+    topologySpreadConstraints: []
+    podManagementPolicy: Parallel
+    priorityClassName: ""
+    schedulerName: ""
+    terminationGracePeriodSeconds: ""
+    updateStrategy:
+      type: RollingUpdate
+      rollingUpdate: {}
+    extraVolumes: []
+    extraVolumeMounts: []
+    initContainers: []
+    sidecars: []
+    service:
+      type: ClusterIP
+      http:
+        enabled: true
+      ports:
+        http: 80
+        https: 443
+      nodePorts:
+        http: ""
+        https: ""
+      sessionAffinity: None
+      sessionAffinityConfig: {}
+      clusterIP: ""
+      loadBalancerIP: ""
+      loadBalancerSourceRanges: []
+      externalTrafficPolicy: Cluster
+      annotations: {}
+      extraPorts: []
+      extraHeadlessPorts: []
+      headless:
+        annotations: {}
+        extraPorts: []
+    serviceAccount:
+      create: true
+      name: ""
+      automountServiceAccountToken: true
+      annotations: {}
+      extraLabels: {}
+    postgresql:
+      enabled: false
+    externalDatabase:
+      existingSecret: keycloak-database-credentials
+      existingSecretHostKey: host
+      existingSecretPortKey: port
+      existingSecretUserKey: user
+      existingSecretDatabaseKey: name
+      existingSecretPasswordKey: password
+    cache:
+      enabled: true
+      stackName: kubernetes
+      stackFile: ""
+    logging:
+      output: default
+      level: INFO
